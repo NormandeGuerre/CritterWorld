@@ -3,20 +3,96 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thirdtimesacharm;
+//package thirdtimesacharm;
 
 /**
  *
  * @author ima
  */
 public class Top extends javax.swing.JFrame {
+   static boolean DEAD_ARE_FOOD  = false;
+    static boolean OLD_AGE_KILLS  = false;
+    static boolean pauseStatus    = false;
+
 
     /**
      * Creates new form Top
      */
     public Top() {
         initComponents();
+        setUpGUI();
     }
+
+    private void setUpGUI(){
+        TF_FoodCnt.setText("0");
+        TF_CritterCnt.setText("0");
+        TF_Year.setText("0");
+    }
+
+
+    public static void displayFoodCount() {
+        TF_FoodCnt.setText(Integer.toString(World.myFL.getAmtofFood()));
+    }
+
+    public static void displayNumCritters(){
+        TF_CritterCnt.setText(Integer.toString(World.myCL.getNumOfCritters()));
+    }
+
+    public static void displayYear() {
+        int tmp;
+        tmp = Integer.parseInt(TF_Year.getText());
+        tmp++;
+        TF_Year.setText(Integer.toString(tmp));
+    }
+
+    public static int getDelay() {
+        return ((int) SL_Delay.getValue());
+    }
+
+    public static int getMaxFood() {
+        return ((int) SP_MaxFood.getModel().getValue());
+    }
+
+    public static int getInitFoodCnt() {
+        return ((int) SP_InitFoodCnt.getModel().getValue());
+    }
+
+    public static int getInitCritterCnt() {
+        return ((int) SP_InitCritterCnt.getModel().getValue());
+    }
+
+    public static int getAgeOfRepro() {
+        return ((int) SP_AgeOfRepro.getModel().getValue());
+    }
+
+    public static int getEnergyforRepro() {
+        return ((int) SP_EnergyForRepro.getModel().getValue());
+    }
+
+    public static int getCostOfRepro() {
+        return ((int) SP_CostOfRepro.getModel().getValue());
+    }
+
+    public static int getFoodGrowthRate() {
+        return ((int) SP_FoodGrowthRate.getModel().getValue());
+    }
+
+    public static int getFoodValue() {
+        return ((int) SP_FoodValue.getModel().getValue());
+    }
+
+    public static int getMaxCritterEnergy() {
+        return ((int) SP_MaxCritterEnergy.getModel().getValue());
+    }
+
+    public static int getMoveCost() {
+        return ((int) SP_MoveCost.getModel().getValue());
+    }
+
+    public static int getDeathAge() {
+        return ((int) SP_DeathAge.getModel().getValue());
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,7 +112,8 @@ public class Top extends javax.swing.JFrame {
         TF_FoodCnt = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         TF_Year = new javax.swing.JTextField();
-        jPanel5 = new javax.swing.JPanel();
+        //jpanel5 = new javax.swing.JPanel();
+        World = new World();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         SP_InitFoodCnt = new javax.swing.JSpinner();
@@ -54,11 +131,11 @@ public class Top extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        SP_MaxEnergy = new javax.swing.JSpinner();
+        SP_MaxCritterEnergy = new javax.swing.JSpinner();
         jLabel8 = new javax.swing.JLabel();
         SP_FoodValue = new javax.swing.JSpinner();
         SP_MoveCost = new javax.swing.JSpinner();
-        SP_FoodGrowthValue = new javax.swing.JSpinner();
+        SP_FoodGrowthRate = new javax.swing.JSpinner();
         SP_MaxFood = new javax.swing.JSpinner();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
@@ -66,9 +143,9 @@ public class Top extends javax.swing.JFrame {
         CB_ChildMutates = new javax.swing.JCheckBox();
         CB_ParentMutates = new javax.swing.JCheckBox();
         CB_OldAgeKills = new javax.swing.JCheckBox();
-        SP_OldAgeKills = new javax.swing.JSpinner();
+        SP_DeathAge = new javax.swing.JSpinner();
         jPanel9 = new javax.swing.JPanel();
-        jSlider1 = new javax.swing.JSlider();
+        SL_Delay = new javax.swing.JSlider();
         jLabel12 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         Btn_Start = new javax.swing.JButton();
@@ -130,18 +207,18 @@ public class Top extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel1.add(jPanel6, gridBagConstraints);
 
-        jPanel5.setBackground(java.awt.Color.black);
-        jPanel5.setMaximumSize(new java.awt.Dimension(880, 400));
-        jPanel5.setMinimumSize(new java.awt.Dimension(880, 400));
+        World.setBackground(java.awt.Color.black);
+        World.setMaximumSize(new java.awt.Dimension(880, 400));
+        World.setMinimumSize(new java.awt.Dimension(880, 400));
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout WorldLayout = new javax.swing.GroupLayout(World);
+        World.setLayout(WorldLayout);
+        WorldLayout.setHorizontalGroup(
+            WorldLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 880, Short.MAX_VALUE)
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        WorldLayout.setVerticalGroup(
+            WorldLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
         );
 
@@ -150,7 +227,7 @@ public class Top extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jPanel5, gridBagConstraints);
+        jPanel1.add(World, gridBagConstraints);
 
         jPanel4.setBackground(java.awt.Color.red);
         jPanel4.setBorder(new javax.swing.border.MatteBorder(null));
@@ -328,16 +405,16 @@ public class Top extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jPanel3.add(jLabel7, gridBagConstraints);
 
-        SP_MaxEnergy.setModel(new javax.swing.SpinnerNumberModel(50000, 1000, 500000, 1000));
-        SP_MaxEnergy.setMaximumSize(new java.awt.Dimension(100, 28));
-        SP_MaxEnergy.setMinimumSize(new java.awt.Dimension(100, 28));
-        SP_MaxEnergy.setPreferredSize(new java.awt.Dimension(100, 28));
+        SP_MaxCritterEnergy.setModel(new javax.swing.SpinnerNumberModel(50000, 1000, 500000, 1000));
+        SP_MaxCritterEnergy.setMaximumSize(new java.awt.Dimension(100, 28));
+        SP_MaxCritterEnergy.setMinimumSize(new java.awt.Dimension(100, 28));
+        SP_MaxCritterEnergy.setPreferredSize(new java.awt.Dimension(100, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.ipady = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        jPanel3.add(SP_MaxEnergy, gridBagConstraints);
+        jPanel3.add(SP_MaxCritterEnergy, gridBagConstraints);
 
         jLabel8.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -374,16 +451,16 @@ public class Top extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jPanel3.add(SP_MoveCost, gridBagConstraints);
 
-        SP_FoodGrowthValue.setModel(new javax.swing.SpinnerNumberModel(10, 0, 200, 10));
-        SP_FoodGrowthValue.setMaximumSize(new java.awt.Dimension(100, 28));
-        SP_FoodGrowthValue.setMinimumSize(new java.awt.Dimension(100, 28));
-        SP_FoodGrowthValue.setPreferredSize(new java.awt.Dimension(100, 28));
+        SP_FoodGrowthRate.setModel(new javax.swing.SpinnerNumberModel(10, 0, 200, 10));
+        SP_FoodGrowthRate.setMaximumSize(new java.awt.Dimension(100, 28));
+        SP_FoodGrowthRate.setMinimumSize(new java.awt.Dimension(100, 28));
+        SP_FoodGrowthRate.setPreferredSize(new java.awt.Dimension(100, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipady = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        jPanel3.add(SP_FoodGrowthValue, gridBagConstraints);
+        jPanel3.add(SP_FoodGrowthRate, gridBagConstraints);
 
         SP_MaxFood.setModel(new javax.swing.SpinnerNumberModel(10000, 0, 60000, 1000));
         SP_MaxFood.setMaximumSize(new java.awt.Dimension(100, 28));
@@ -468,14 +545,16 @@ public class Top extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         jPanel8.add(CB_OldAgeKills, gridBagConstraints);
 
-        SP_OldAgeKills.setModel(new javax.swing.SpinnerNumberModel(1000, 100, 500000, 1000));
-        SP_OldAgeKills.setMaximumSize(new java.awt.Dimension(47, 28));
+        SP_DeathAge.setModel(new javax.swing.SpinnerNumberModel(1000, 100, 500000, 1000));
+        SP_DeathAge.setMaximumSize(new java.awt.Dimension(100, 28));
+        SP_DeathAge.setMinimumSize(new java.awt.Dimension(100, 28));
+        SP_DeathAge.setName(""); // NOI18N
+        SP_DeathAge.setPreferredSize(new java.awt.Dimension(100, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 61;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        jPanel8.add(SP_OldAgeKills, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        jPanel8.add(SP_DeathAge, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -489,11 +568,12 @@ public class Top extends javax.swing.JFrame {
         jPanel9.setPreferredSize(new java.awt.Dimension(294, 70));
         jPanel9.setLayout(new java.awt.GridBagLayout());
 
-        jSlider1.setMajorTickSpacing(1);
-        jSlider1.setMaximum(10);
-        jSlider1.setPaintTicks(true);
-        jSlider1.setSnapToTicks(true);
-        jSlider1.setValue(5);
+        SL_Delay.setMajorTickSpacing(1);
+        SL_Delay.setMaximum(10);
+        SL_Delay.setMinimum(1);
+        SL_Delay.setPaintTicks(true);
+        SL_Delay.setSnapToTicks(true);
+        SL_Delay.setValue(5);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -502,9 +582,9 @@ public class Top extends javax.swing.JFrame {
         gridBagConstraints.ipady = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 15);
-        jPanel9.add(jSlider1, gridBagConstraints);
+        jPanel9.add(SL_Delay, gridBagConstraints);
 
-        jLabel12.setText("  Delay");
+        jLabel12.setText("Speed Delay");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -597,11 +677,17 @@ public class Top extends javax.swing.JFrame {
     }//GEN-LAST:event_CB_ChildMutatesActionPerformed
 
     private void Btn_StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_StartActionPerformed
-        // TODO add your handling code here:
+        Thread queryThread = new Thread() {
+            public void run() {
+                World.kluge();
+            }
+        };
+        queryThread.start();
+
     }//GEN-LAST:event_Btn_StartActionPerformed
 
     private void Btn_PauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_PauseActionPerformed
-        // TODO add your handling code here:
+        pauseStatus = !pauseStatus;
     }//GEN-LAST:event_Btn_PauseActionPerformed
 
     private void Btn_ResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ResetActionPerformed
@@ -649,28 +735,29 @@ public class Top extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Btn_EXIT;
-    private javax.swing.JButton Btn_Pause;
-    private javax.swing.JButton Btn_Reset;
-    private javax.swing.JButton Btn_Start;
-    private javax.swing.JCheckBox CB_ChildMutates;
-    private javax.swing.JCheckBox CB_DeadAreFood;
-    private javax.swing.JCheckBox CB_OldAgeKills;
-    private javax.swing.JCheckBox CB_ParentMutates;
-    private javax.swing.JSpinner SP_AgeOfRepro;
-    private javax.swing.JSpinner SP_CostOfRepro;
-    private javax.swing.JSpinner SP_EnergyForRepro;
-    private javax.swing.JSpinner SP_FoodGrowthValue;
-    private javax.swing.JSpinner SP_FoodValue;
-    private javax.swing.JSpinner SP_InitCritterCnt;
-    private javax.swing.JSpinner SP_InitFoodCnt;
-    private javax.swing.JSpinner SP_MaxEnergy;
-    private javax.swing.JSpinner SP_MaxFood;
-    private javax.swing.JSpinner SP_MoveCost;
-    private javax.swing.JSpinner SP_OldAgeKills;
-    private javax.swing.JTextField TF_CritterCnt;
-    private javax.swing.JTextField TF_FoodCnt;
-    private javax.swing.JTextField TF_Year;
+    private static javax.swing.JButton Btn_EXIT;
+    private static javax.swing.JButton Btn_Pause;
+    private static javax.swing.JButton Btn_Reset;
+    private static javax.swing.JButton Btn_Start;
+    private static javax.swing.JCheckBox CB_ChildMutates;
+    private static javax.swing.JCheckBox CB_DeadAreFood;
+    private static javax.swing.JCheckBox CB_OldAgeKills;
+    private static javax.swing.JCheckBox CB_ParentMutates;
+    private static javax.swing.JSlider SL_Delay;
+    private static javax.swing.JSpinner SP_AgeOfRepro;
+    private static javax.swing.JSpinner SP_CostOfRepro;
+    private static javax.swing.JSpinner SP_DeathAge;
+    private static javax.swing.JSpinner SP_EnergyForRepro;
+    private static javax.swing.JSpinner SP_FoodGrowthRate;
+    private static javax.swing.JSpinner SP_FoodValue;
+    private static javax.swing.JSpinner SP_InitCritterCnt;
+    private static javax.swing.JSpinner SP_InitFoodCnt;
+    private static javax.swing.JSpinner SP_MaxCritterEnergy;
+    private static javax.swing.JSpinner SP_MaxFood;
+    private static javax.swing.JSpinner SP_MoveCost;
+    private static javax.swing.JTextField TF_CritterCnt;
+    private static javax.swing.JTextField TF_FoodCnt;
+    private static javax.swing.JTextField TF_Year;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel18;
@@ -690,11 +777,10 @@ public class Top extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
+    private static World World;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JSlider jSlider1;
     // End of variables declaration//GEN-END:variables
 }
